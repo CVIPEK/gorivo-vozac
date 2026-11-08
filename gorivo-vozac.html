@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; worker-src 'self'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#16a7b8">
@@ -272,6 +272,10 @@ $('#bOdustani').onclick = pocetna;
 addEventListener('hashchange', () => location.reload());
 if(!C) zaslon('sNema');
 else { $('#ime').textContent = '👤 ' + C.i; $('#brojV').textContent = C.t; pocetna(); }
+
+// mobitel sprema stranicu, pa se otvara i bez interneta (samo preko https; na NAS-u preko http ovo se preskače)
+if('serviceWorker' in navigator && /gorivo-vozac\.html$/.test(location.pathname))
+  navigator.serviceWorker.register('sw-vozac.js', {scope:'./gorivo-vozac.html'}).catch(()=>{});
 </script>
 </body>
 </html>
